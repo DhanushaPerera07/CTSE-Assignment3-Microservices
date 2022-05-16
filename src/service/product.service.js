@@ -29,7 +29,7 @@ import axios from './axios.service';
 const getAllProducts = () => {
     return new Promise(async (resolve, reject) => {
         try {
-            const result = await axios.get(`${process.env.ECOMMERCE_BACKEND_API_URL}products`);
+            const result = await axios.get(`${process.env.REACT_APP_ECOMMERCE_BACKEND_API_URL}products`);
             resolve(result);
         } catch (error) {
             reject(error);
@@ -44,7 +44,7 @@ const getAllProducts = () => {
 const getProductByID = (productID) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const result = await axios.get(`${process.env.ECOMMERCE_BACKEND_API_URL}products/${productID}`);
+            const result = await axios.get(`${process.env.REACT_APP_ECOMMERCE_BACKEND_API_URL}products/${productID}`);
             resolve(result);
         } catch (error) {
             reject(error);
@@ -61,7 +61,7 @@ const saveProduct = (product) => {
             const formData = await configureFormDataObject(true, product);
 
             try { /* send a post request to the backend using axios. */
-                const response = await axios.post(`${process.env.ECOMMERCE_BACKEND_API_URL}products`, formData);
+                const response = await axios.post(`${process.env.REACT_APP_ECOMMERCE_BACKEND_API_URL}products`, formData);
                 resolve(response);
             } catch (error) {
                 reject(error);
@@ -83,7 +83,7 @@ const updateProduct = (product) => {
             const formData = await configureFormDataObject(false, product);
 
             /* send a put request to the backend using axios. */
-            const response = axios.put(`${process.env.ECOMMERCE_BACKEND_API_URL}products/${product?.id}`, formData);
+            const response = axios.put(`${process.env.REACT_APP_ECOMMERCE_BACKEND_API_URL}products/${product?.id}`, formData);
             resolve(response);
         } catch (error) {
             if (error.response) {
@@ -115,7 +115,7 @@ const updateProduct = (product) => {
 const deleteProduct = (productID) => {
     return new Promise((resolve, reject) => {
         try { /* send a delete request to the backend using axios. */
-            const result = axios.delete(`${process.env.ECOMMERCE_BACKEND_API_URL}products/${productID}`);
+            const result = axios.delete(`${process.env.REACT_APP_ECOMMERCE_BACKEND_API_URL}products/${productID}`);
             resolve(result);
         } catch (error) {
             reject(error);

@@ -44,7 +44,7 @@ export default function ProductListItem(props) {
 
     const [isAdmin, setIsAdmin] = useState(
         atob(
-            sessionStorage.getItem(sha256(process.env.AUTHENTICATED_USER_TYPE))
+            sessionStorage.getItem(sha256(process.env.REACT_APP_AUTHENTICATED_USER_TYPE))
         ) === 'ADMIN'
     );
 
@@ -81,7 +81,7 @@ export default function ProductListItem(props) {
                             variant="top"
                             src={
                                 product?.imagePath
-                                    ? `${process.env.ECOMMERCE_BACKEND_API_URL_FOR_IMAGE}${product?.imagePath}`
+                                    ? `${process.env.REACT_APP_ECOMMERCE_BACKEND_API_URL_FOR_IMAGE}${product?.imagePath}`
                                     : 'https://via.placeholder.com/300'
                             }
                             alt="Product image"
@@ -89,10 +89,11 @@ export default function ProductListItem(props) {
                         <Card.Body>
                             <Card.Title>Name: {product.name}</Card.Title>
                             <Card.Text style={fontStyle}>
-                                Description: {product.description}
+                                Description:
+                                {/*{product.description}*/}
                             </Card.Text>
-                            <Card.Text>Unit Price: {product.unitPrice}</Card.Text>
-                            <Card.Text>Hand On Quantity: {product.handOnQuantity}</Card.Text>
+                            <Card.Text>Product Name: {product.name}</Card.Text>
+                            {/*<Card.Text>Hand On Quantity: {product.handOnQuantity}</Card.Text>*/}
 
                             <Row style={{marginTop: '25%'}}>
                                 {

@@ -52,7 +52,7 @@ class ProductProvider extends Component {
     }
 
     async componentDidMount() {
-        const jwtToken = sessionStorage.getItem(sha256(process.env.JWT_TOKEN_NAME));
+        const jwtToken = sessionStorage.getItem(sha256(process.env.REACT_APP_JWT_TOKEN_NAME));
         axios.defaults.headers.common['Authorization'] = `Bearer ${jwtToken}`;
         try {
             await this.getAllProducts();
@@ -92,7 +92,7 @@ class ProductProvider extends Component {
                 const response = await ProductService.getAllProducts();
                 if (response.status === 200) {
                     this.setState({
-                        products: response.data
+                        products: response.data.data
                     });
                     resolve(this.state.products);
                 }
