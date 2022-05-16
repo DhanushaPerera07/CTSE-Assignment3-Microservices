@@ -48,9 +48,12 @@ class UserProvider extends Component {
     }
 
     async componentDidMount() {
-        const userIdValue = sessionStorage.getItem(sha256(process.env.AUTHENTICATED_USER_ID));
-        const userNameValue = sessionStorage.getItem(sha256(process.env.AUTHENTICATED_USER_NAME));
-        const userTypeValue = sessionStorage.getItem(sha256(process.env.AUTHENTICATED_USER_TYPE));
+        // const userIdValue = sessionStorage.getItem(sha256(process.env.REACT_APP_AUTHENTICATED_USER_ID));
+        // const userNameValue = sessionStorage.getItem(sha256(process.env.REACT_APP_AUTHENTICATED_USER_NAME));
+        // const userTypeValue = sessionStorage.getItem(sha256(process.env.REACT_APP_AUTHENTICATED_USER_TYPE));
+        const userIdValue = 'MQ==' // 1
+        const userNameValue = 'TWVudXJh' // Menura
+        const userTypeValue = 'QURNSU4=' // ADMIN
         if (userIdValue && userNameValue && userTypeValue) {
             this.setState({
                 currentUser: {
@@ -59,6 +62,16 @@ class UserProvider extends Component {
                     type: atob(userTypeValue)
                 }
             });
+            /** Save current logged in user ID in the session storage. */
+            sessionStorage.setItem(sha256(process.env.REACT_APP_AUTHENTICATED_USER_ID),
+                btoa(atob(userIdValue)));
+            /** Save current logged in user Name in the session storage. */
+            sessionStorage.setItem(sha256(process.env.REACT_APP_AUTHENTICATED_USER_NAME),
+                btoa(atob(userNameValue)));
+            /** Save current logged in user TYPE in the session storage. */
+            sessionStorage.setItem(sha256(process.env.REACT_APP_AUTHENTICATED_USER_TYPE),
+                btoa(atob(userTypeValue)));
+
         }
     }
 
@@ -92,13 +105,13 @@ class UserProvider extends Component {
                 const authUser = await UserService.getUserByID(userID);
                 console.log(`authUser: ${authUser?._id}`);
                 /** Save current logged in user ID in the session storage. */
-                sessionStorage.setItem(sha256(process.env.AUTHENTICATED_USER_ID),
+                sessionStorage.setItem(sha256(process.env.REACT_APP_AUTHENTICATED_USER_ID),
                     btoa(authUser?._id));
                 /** Save current logged in user Name in the session storage. */
-                sessionStorage.setItem(sha256(process.env.AUTHENTICATED_USER_NAME),
+                sessionStorage.setItem(sha256(process.env.REACT_APP_AUTHENTICATED_USER_NAME),
                     btoa(authUser?.name));
                 /** Save current logged in user TYPE in the session storage. */
-                sessionStorage.setItem(sha256(process.env.AUTHENTICATED_USER_TYPE),
+                sessionStorage.setItem(sha256(process.env.REACT_APP_AUTHENTICATED_USER_TYPE),
                     btoa(authUser?.type));
                 this._addUser(authUser);
                 resolve(true);
@@ -115,10 +128,10 @@ class UserProvider extends Component {
     }
 
     _removeUser() {
-        sessionStorage.removeItem(sha256(process.env.JWT_TOKEN_NAME));
-        sessionStorage.removeItem(sha256(process.env.AUTHENTICATED_USER_ID));
-        sessionStorage.removeItem(sha256(process.env.AUTHENTICATED_USER_NAME));
-        sessionStorage.removeItem(sha256(process.env.AUTHENTICATED_USER_TYPE));
+        sessionStorage.removeItem(sha256(process.env.REACT_APP_JWT_TOKEN_NAME));
+        sessionStorage.removeItem(sha256(process.env.REACT_APP_AUTHENTICATED_USER_ID));
+        sessionStorage.removeItem(sha256(process.env.REACT_APP_AUTHENTICATED_USER_NAME));
+        sessionStorage.removeItem(sha256(process.env.REACT_APP_AUTHENTICATED_USER_TYPE));
         this.setState({
             currentUser: null
         });

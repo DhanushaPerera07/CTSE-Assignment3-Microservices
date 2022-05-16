@@ -34,6 +34,7 @@ export default class Products extends React.Component {
     super(props);
     this.state = {
       product: null,
+      // products: this.props.products,
     };
   }
 
@@ -43,10 +44,15 @@ export default class Products extends React.Component {
 
   render() {
     const { products } = this.props;
+      console.log('my products len: ' + products.length);
+    //   console.log(`Length: ${this.props.products.length}`)
     const isAdmin =
       atob(
-        sessionStorage.getItem(sha256(process.env.AUTHENTICATED_USER_TYPE))
+        sessionStorage.getItem(sha256(process.env.REACT_APP_AUTHENTICATED_USER_TYPE))
       ) === "ADMIN";
+
+      // console.log('--------------')
+      // console.log(products)
     return (
       <Container style={{ padding: "2rem 0" }}>
         {/* header. */}
@@ -79,6 +85,7 @@ export default class Products extends React.Component {
         </Container>
 
         <Container fluid>
+            {/*<h2>{products.length}</h2>*/}
           <Row>
             {/* display product item by item by looping through. */}
             {products.map((product) => {
