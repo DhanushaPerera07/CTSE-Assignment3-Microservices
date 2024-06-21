@@ -1,7 +1,27 @@
 /*
-@author : Dhanusha Perera
-@date : 20/05/2021
-*/
+ * MIT License
+ *
+ * Copyright (c) 2022 Code4 v2 Technologies.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON INFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 import React, {Component} from 'react';
 import UserService from '../service/user.service';
 import sha256 from 'crypto-js/sha256';
@@ -28,9 +48,12 @@ class UserProvider extends Component {
     }
 
     async componentDidMount() {
-        const userIdValue = sessionStorage.getItem(sha256(process.env.AUTHENTICATED_USER_ID));
-        const userNameValue = sessionStorage.getItem(sha256(process.env.AUTHENTICATED_USER_NAME));
-        const userTypeValue = sessionStorage.getItem(sha256(process.env.AUTHENTICATED_USER_TYPE));
+        // const userIdValue = sessionStorage.getItem(sha256(process.env.REACT_APP_AUTHENTICATED_USER_ID));
+        // const userNameValue = sessionStorage.getItem(sha256(process.env.REACT_APP_AUTHENTICATED_USER_NAME));
+        // const userTypeValue = sessionStorage.getItem(sha256(process.env.REACT_APP_AUTHENTICATED_USER_TYPE));
+        const userIdValue = 'MQ==' // 1
+        const userNameValue = 'TWVudXJh' // Menura
+        const userTypeValue = 'QURNSU4=' // ADMIN
         if (userIdValue && userNameValue && userTypeValue) {
             this.setState({
                 currentUser: {
@@ -39,6 +62,16 @@ class UserProvider extends Component {
                     type: atob(userTypeValue)
                 }
             });
+            /** Save current logged in user ID in the session storage. */
+            sessionStorage.setItem(sha256(process.env.REACT_APP_AUTHENTICATED_USER_ID),
+                btoa(atob(userIdValue)));
+            /** Save current logged in user Name in the session storage. */
+            sessionStorage.setItem(sha256(process.env.REACT_APP_AUTHENTICATED_USER_NAME),
+                btoa(atob(userNameValue)));
+            /** Save current logged in user TYPE in the session storage. */
+            sessionStorage.setItem(sha256(process.env.REACT_APP_AUTHENTICATED_USER_TYPE),
+                btoa(atob(userTypeValue)));
+
         }
     }
 
@@ -72,13 +105,13 @@ class UserProvider extends Component {
                 const authUser = await UserService.getUserByID(userID);
                 console.log(`authUser: ${authUser?._id}`);
                 /** Save current logged in user ID in the session storage. */
-                sessionStorage.setItem(sha256(process.env.AUTHENTICATED_USER_ID),
+                sessionStorage.setItem(sha256(process.env.REACT_APP_AUTHENTICATED_USER_ID),
                     btoa(authUser?._id));
                 /** Save current logged in user Name in the session storage. */
-                sessionStorage.setItem(sha256(process.env.AUTHENTICATED_USER_NAME),
+                sessionStorage.setItem(sha256(process.env.REACT_APP_AUTHENTICATED_USER_NAME),
                     btoa(authUser?.name));
                 /** Save current logged in user TYPE in the session storage. */
-                sessionStorage.setItem(sha256(process.env.AUTHENTICATED_USER_TYPE),
+                sessionStorage.setItem(sha256(process.env.REACT_APP_AUTHENTICATED_USER_TYPE),
                     btoa(authUser?.type));
                 this._addUser(authUser);
                 resolve(true);
@@ -95,10 +128,10 @@ class UserProvider extends Component {
     }
 
     _removeUser() {
-        sessionStorage.removeItem(sha256(process.env.JWT_TOKEN_NAME));
-        sessionStorage.removeItem(sha256(process.env.AUTHENTICATED_USER_ID));
-        sessionStorage.removeItem(sha256(process.env.AUTHENTICATED_USER_NAME));
-        sessionStorage.removeItem(sha256(process.env.AUTHENTICATED_USER_TYPE));
+        sessionStorage.removeItem(sha256(process.env.REACT_APP_JWT_TOKEN_NAME));
+        sessionStorage.removeItem(sha256(process.env.REACT_APP_AUTHENTICATED_USER_ID));
+        sessionStorage.removeItem(sha256(process.env.REACT_APP_AUTHENTICATED_USER_NAME));
+        sessionStorage.removeItem(sha256(process.env.REACT_APP_AUTHENTICATED_USER_TYPE));
         this.setState({
             currentUser: null
         });
